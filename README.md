@@ -34,9 +34,6 @@ Each transaction should display correctly in the UI.
 Use the buttons individually to scroll up and down to view the transaction details.
 Either Sign or Deny the transaction by clicking both top buttons on the 'Sign Tx Now', and 'Deny Tx' screens.
 
-========
-
 See [Ledger's documentation](http://ledger.readthedocs.io) to get started.
-=======
-# blue-app-ont
+
 
