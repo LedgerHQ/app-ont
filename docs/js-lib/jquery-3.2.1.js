@@ -678,7 +678,7 @@ var i,
 		var high = "0x" + escaped - 0x10000;
 		// NaN means non-codepoint
 		// Support: Firefox<24
-		// Workaround erroneous numeric interpretation of +"0x"
+		// Workaround erroontus numeric interpretation of +"0x"
 		return high !== high || escapedWhitespace ?
 			escaped :
 			high < 0 ?
@@ -2028,7 +2028,7 @@ Expr = Sizzle.selectors = {
 			};
 		}),
 
-		// Miscellaneous
+		// Miscellaontus
 		"target": function( elem ) {
 			var hash = window.location && window.location.hash;
 			return hash && hash.slice( 1 ) === elem.id;

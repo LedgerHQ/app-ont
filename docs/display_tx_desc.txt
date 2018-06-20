@@ -24,7 +24,7 @@ Note over display_tx_desc: [3.1.1] for every tx_out
 Note over display_tx_desc: [3.1.1] repeat the below loop
 
 Note over tx_desc: Asset Id and Value Screen
-display_tx_desc->tx_desc:move Tx Out Asset Id (NEO, GAS, UNKNOWN) to line 0 of current screen
+display_tx_desc->tx_desc:move Tx Out Asset Id (ONT, ONG, UNKNOWN) to line 0 of current screen
 tx_desc-->>display_tx_desc:return
 display_tx_desc->tx_desc:move Tx Out Value to line 1 of current screen
 tx_desc-->>display_tx_desc:return

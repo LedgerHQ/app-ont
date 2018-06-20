@@ -7157,7 +7157,7 @@ c0d0211e:	9902      	ldr	r1, [sp, #8]
 c0d02120:	e7ca      	b.n	c0d020b8 <u2f_apdu_sign+0x20>
 c0d02122:	46c0      	nop			; (mov r8, r8)
 c0d02124:	20001a64 	.word	0x20001a64
-c0d02128:	004f454e 	.word	0x004f454e
+c0d02128:	00544e4f 	.word	0x00544e4f
 c0d0212c:	200018f8 	.word	0x200018f8
 c0d02130:	20001a66 	.word	0x20001a66
 c0d02134:	20001a5c 	.word	0x20001a5c

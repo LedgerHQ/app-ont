@@ -30,7 +30,7 @@ display_tx_desc->tx_desc:Add contents of raw_tx to tx_desc, in a human readable 
 tx_desc-->>display_tx_desc:return
 display_tx_desc-->>Sign Transaction:return
 
-Sign Transaction->ui_top_sign:Check Byte #2, if it's P1_LAST, change UI from "Wake Up, Neo..." to the top "Sign Tx Now" screen.
+Sign Transaction->ui_top_sign:Check Byte #2, if it's P1_LAST, change UI from "Wake Up, ONT..." to the top "Sign Tx Now" screen.
 Note over ui_top_sign: [3.2]
 
 Sign Transaction->io_seproxyhal_touch_approve:Check Byte #2, if it's P1_MORE, call io_seproxyhal_touch_approve

@@ -1,4 +1,4 @@
-Title:Blue App NEO - Ledger Nano S App for NEO Cryptocoin.
+Title:Blue App ONT - Ledger Nano S App for ONT Cryptocoin.
 participant Wallet
 participant Dashboard
 participant Main Loop
