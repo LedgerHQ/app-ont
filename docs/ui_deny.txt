@@ -1,0 +1,15 @@
+Title:[3.6] ui_deny (Subroutine)
+participant ui_deny
+participant tx_desc_dn
+participant tx_desc_up
+participant io_seproxyhal_touch_deny
+participant ui_sign
+
+Note over io_seproxyhal_touch_deny: [3.4]
+Note over ui_sign: [3.5]
+
+tx_desc_up->ui_deny:Request Sent
+ui_deny->io_seproxyhal_touch_deny:if both buttons are pressed, deny tx
+ui_deny->tx_desc_up:if left button is pressed, go up a screen
+Note over tx_desc_up: ui_sign()
+tx_desc_up->ui_sign:Request Sent
