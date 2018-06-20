@@ -5,7 +5,7 @@ Some errors are standard errors from the APDU (Application Protocol Data Unit)
 
 http://techmeonline.com/apdu-status-error-codes/
 
-All errors on ONT 1.1 start with 0x6D (because I read the spec wrong).
+All errors on ONT 1.0 start with 0x6D (because I read the spec wrong).
 
 - `0x6D00` unknown command. (this is to spec, the rest are enoded as 'unknown command' `0x6D` but should be 'unknown parameter' `0x6B`)
 - `0x6D01` error, unknown user interface screen, up button was pressed.
@@ -22,38 +22,21 @@ All errors on ONT 1.1 start with 0x6D (because I read the spec wrong).
 - `0x6D12` base_x encoded string is too long for available decoding memory.
 - `0x6D14` base_x encoding error.
 
-
-This will be fixed to use the correct codes (0x9210 No more storage available, 0x6B00 wrong parameter) in 1.2, sometime in 2018.
-
 # blue-app-ont CE
 
 This is the community edition of the Ledger Nano S app for the ONT Cryptocoin.
 
-Documentation on how it works is here:
-[sequence diagrams](https://coranos.github.io/blue-app-ont/docs/index.html)
-
 Run `make load` to build and load the application onto the device.
 
-After installing and running the application, you can run `demo.py` to test signing several transactions over USB.
+RUn 'make delete' to delete the application onto the device.
 
 Each transaction should display correctly in the UI.
 Use the buttons individually to scroll up and down to view the transaction details.
-Either Sign or Deny the transaction by clicking both top buttons on the 'Sign Tx Now', 'Sign Tx' and 'Deny Tx' screens.
-The only difference between 'Sign Tx Now' and 'Sign Tx' is their placement order in the screen list, both sign the transaction.
+Either Sign or Deny the transaction by clicking both top buttons on the 'Sign Tx Now', and 'Deny Tx' screens.
 
-Note that in order to run `demo-GAS-ONT.py`, you must install the `fastecdsa` Python package:
-
-```
-pip install ecdsa
-```
-
-also install GMP (https://gmplib.org/)
-
-See [The Environment Setup Guide](https://coranos.github.io/ont/ledger-nano-s/development/environment.html) if you want to build the appyourself..
 ========
 
 See [Ledger's documentation](http://ledger.readthedocs.io) to get started.
 =======
 # blue-app-ont
 
-todo: key screen does not refresh, have to go in and out to see a refresh.
