@@ -28,7 +28,7 @@ This is the community edition of the Ledger Nano S app for the ONT Cryptocoin.
 
 Run `make load` to build and load the application onto the device.
 
-RUn 'make delete' to delete the application onto the device.
+Run `make delete` to delete the application onto the device.
 
 Each transaction should display correctly in the UI.
 Use the buttons individually to scroll up and down to view the transaction details.
