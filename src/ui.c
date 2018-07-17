@@ -90,7 +90,7 @@ static const bagl_element_t bagl_ui_idle_nanos[] = {
 // },
 		{	{	BAGL_RECTANGLE, 0x00, 0, 0, 128, 32, 0, 0, BAGL_FILL, 0x000000, 0xFFFFFF, 0, 0 }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 		/* center text */
-		{	{	BAGL_LABELINE, 0x02, 0, 12, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Wake Up, ONT...", 0, 0, 0, NULL, NULL, NULL, },
+		{	{	BAGL_LABELINE, 0x02, 0, 12, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Hello ONT!", 0, 0, 0, NULL, NULL, NULL, },
 		/* left icon is a X */
 		{	{	BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0, BAGL_GLYPH_ICON_CROSS }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 		/* right icon is an eye. */
@@ -106,7 +106,7 @@ static const bagl_element_t bagl_ui_idle_blue[] = {
 	{	{	BAGL_RECTANGLE, 0x00, 0, 60, 320, 420, 0, 0, BAGL_FILL, 0x000000, 0x000000, 0, 0}, NULL, 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_RECTANGLE, 0x00, 0, 0, 320, 60, 0, 0, BAGL_FILL, 0XFFFFFF, 0XFFFFFF, 0, 0}, NULL, 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_LABEL, 0x00, 80, 0, 160, 60, 0, 0, BAGL_FILL, 0x000000, 0XFFFFFF, DEFAULT_FONT_BLUE, 0},
-		"Wake Up, ONT...", 0, 0, 0, NULL, NULL, NULL,},
+		"Hello ONT!", 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_BUTTON | BAGL_FLAG_TOUCHABLE, 0x00, 110, 225, 100, 40, 0, 6, BAGL_FILL, 0XFFFFFF, 0x000000, DEFAULT_FONT_BLUE, 0},
 		"EXIT", 0, 0x37ae99, 0xF9F9F9, io_seproxyhal_touch_exit, NULL, NULL,},
 	/* timer label */
