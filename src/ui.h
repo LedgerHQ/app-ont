@@ -65,7 +65,7 @@ extern char timer_desc[MAX_TIMER_TEXT_WIDTH];
 
 /** UI currently displayed */
 enum UI_STATE {
-	UI_INIT, UI_IDLE, UI_TOP_SIGN, UI_TX_DESC_1,UI_TX_DESC_2, UI_SIGN, UI_DENY, UI_PUBLIC_KEY_1, UI_PUBLIC_KEY_2
+    UI_INIT, UI_IDLE, UI_TOP_SIGN, UI_TX_DESC_1, UI_TX_DESC_2, UI_SIGN, UI_DENY, UI_PUBLIC_KEY_1, UI_PUBLIC_KEY_2
 };
 
 /** UI state enum */
@@ -108,7 +108,7 @@ extern char curr_tx_desc[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
 extern char current_public_key[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
 
 /** process a partial transaction */
-const bagl_element_t * io_seproxyhal_touch_approve(const bagl_element_t *e);
+const bagl_element_t *io_seproxyhal_touch_approve(const bagl_element_t *e);
 
 /** show the idle UI */
 void ui_idle(void);
