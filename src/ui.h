@@ -49,7 +49,7 @@ extern char timer_desc[MAX_TIMER_TEXT_WIDTH];
 #define MAX_TX_TEXT_WIDTH 18
 
 /** max lines of text to display. */
-#define MAX_TX_TEXT_LINES 3
+#define MAX_TX_TEXT_LINES 4
 
 /** max number of screens to display. */
 #define MAX_TX_TEXT_SCREENS 9

@@ -90,7 +90,7 @@ static const bagl_element_t bagl_ui_idle_nanos[] = {
 // },
 		{	{	BAGL_RECTANGLE, 0x00, 0, 0, 128, 32, 0, 0, BAGL_FILL, 0x000000, 0xFFFFFF, 0, 0 }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 		/* center text */
-		{	{	BAGL_LABELINE, 0x02, 0, 12, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Hello ONT!", 0, 0, 0, NULL, NULL, NULL, },
+		{	{	BAGL_LABELINE, 0x02, 0, 12, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Hello ONT", 0, 0, 0, NULL, NULL, NULL, },
 		/* left icon is a X */
 		{	{	BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0, BAGL_GLYPH_ICON_CROSS }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 		/* right icon is an eye. */
@@ -106,7 +106,7 @@ static const bagl_element_t bagl_ui_idle_blue[] = {
 	{	{	BAGL_RECTANGLE, 0x00, 0, 60, 320, 420, 0, 0, BAGL_FILL, 0x000000, 0x000000, 0, 0}, NULL, 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_RECTANGLE, 0x00, 0, 0, 320, 60, 0, 0, BAGL_FILL, 0XFFFFFF, 0XFFFFFF, 0, 0}, NULL, 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_LABEL, 0x00, 80, 0, 160, 60, 0, 0, BAGL_FILL, 0x000000, 0XFFFFFF, DEFAULT_FONT_BLUE, 0},
-		"Hello ONT!", 0, 0, 0, NULL, NULL, NULL,},
+		"Hello ONT", 0, 0, 0, NULL, NULL, NULL,},
 	{	{	BAGL_BUTTON | BAGL_FLAG_TOUCHABLE, 0x00, 110, 225, 100, 40, 0, 6, BAGL_FILL, 0XFFFFFF, 0x000000, DEFAULT_FONT_BLUE, 0},
 		"EXIT", 0, 0x37ae99, 0xF9F9F9, io_seproxyhal_touch_exit, NULL, NULL,},
 	/* timer label */
@@ -220,7 +220,7 @@ static const bagl_element_t bagl_ui_top_sign_nanos[] = {
 	/* top right bar */
 	{	{	BAGL_RECTANGLE, 0x00, 113, 1, 12, 2, 0, 0, BAGL_FILL, 0xFFFFFF, 0x000000, 0, 0 }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 	/* center text */
-	{	{	BAGL_LABELINE, 0x02, 0, 20, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Sign Tx Now", 0, 0, 0, NULL, NULL, NULL, },
+	{	{	BAGL_LABELINE, 0x02, 0, 20, 128, 11, 0, 0, 0, 0xFFFFFF, 0x000000, DEFAULT_FONT, 0 }, "Sign Tx", 0, 0, 0, NULL, NULL, NULL, },
 	/* left icon is up arrow  */
 	{	{	BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0, BAGL_GLYPH_ICON_UP }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 	/* right icon is down arrow */
@@ -235,7 +235,7 @@ static const bagl_element_t bagl_ui_top_sign_blue[] = {
 	{	{	BAGL_RECTANGLE, 0x00, 0, 60, 320, 420, 0, 0, BAGL_FILL, 0x000000, 0x000000, 0, 0 }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 	{	{	BAGL_RECTANGLE, 0x00, 0, 0, 320, 60, 0, 0, BAGL_FILL, 0XFFFFFF, 0XFFFFFF, 0, 0 }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 	{	{	BAGL_LABEL, 0x00, 20, 0, 320, 60, 0, 0, BAGL_FILL, 0x000000, 0XFFFFFF, DEFAULT_FONT_BLUE, 0 },
-				"Sign Tx Now", 0, 0, 0, NULL, NULL, NULL, },
+				"Sign Tx", 0, 0, 0, NULL, NULL, NULL, },
 	{ 	{	BAGL_BUTTON | BAGL_FLAG_TOUCHABLE, 0x00, 0, 225, 100, 40, 0, 6, BAGL_FILL, 0XFFFFFF, 0x000000, DEFAULT_FONT_BLUE, 0 },
 				"Up", 0, 0x37ae99, 0xF9F9F9, tx_desc_up, NULL, NULL, },
 	{	{	BAGL_BUTTON | BAGL_FLAG_TOUCHABLE, 0x00, 110, 225, 100, 40, 0, 6, BAGL_FILL, 0XFFFFFF, 0x000000, DEFAULT_FONT_BLUE, 0 },
@@ -416,9 +416,9 @@ static const bagl_element_t bagl_ui_tx_desc_nanos_2[] = {
 	/* screen 2 number */
 	{	{	BAGL_LABELINE, 0x02, 0, 10, 20, 11, 0x80 | 10, 0, 0, 0xFFFFFF, 0x000000, TX_DESC_FONT, 0 }, "2/2", 0, 0, 0, NULL, NULL, NULL, },
 	/* second line of description of current screen */
-	{	{	BAGL_LABELINE, 0x02, 10, 15, 108, 11, 0x80 | 10, 0, 0, 0xFFFFFF, 0x000000, TX_DESC_FONT, 0 }, curr_tx_desc[1], 0, 0, 0, NULL, NULL, NULL, },
+	{	{	BAGL_LABELINE, 0x02, 10, 15, 108, 11, 0x80 | 10, 0, 0, 0xFFFFFF, 0x000000, TX_DESC_FONT, 0 }, curr_tx_desc[2], 0, 0, 0, NULL, NULL, NULL, },
 	/* third line of description of current screen  */
-	{	{	BAGL_LABELINE, 0x02, 10, 26, 108, 11, 0x80 | 10, 0, 0, 0xFFFFFF, 0x000000, TX_DESC_FONT, 0 }, curr_tx_desc[2], 0, 0, 0, NULL, NULL, NULL, },
+	{	{	BAGL_LABELINE, 0x02, 10, 26, 108, 11, 0x80 | 10, 0, 0, 0xFFFFFF, 0x000000, TX_DESC_FONT, 0 }, curr_tx_desc[3], 0, 0, 0, NULL, NULL, NULL, },
 	/* left icon is up arrow  */
 	{	{	BAGL_ICON, 0x00, 3, 12, 7, 7, 0, 0, 0, 0xFFFFFF, 0x000000, 0, BAGL_GLYPH_ICON_UP }, NULL, 0, 0, 0, NULL, NULL, NULL, },
 	/* right icon is down arrow */
@@ -504,12 +504,12 @@ static const bagl_element_t * tx_desc_up(const bagl_element_t *e) {
 	case UI_TOP_SIGN:
 		ui_deny();
 		break;
-/*
 	case UI_TX_DESC_1:
+		ui_top_sign();
 		if (curr_scr_ix == 0) {
-			ui_top_sign();
+			//ui_top_sign();
 		} else {
-			curr_scr_ix--;
+			//curr_scr_ix--;
 			//copy_tx_desc();
 			//ui_display_tx_desc_2();
 		}
@@ -519,11 +519,10 @@ static const bagl_element_t * tx_desc_up(const bagl_element_t *e) {
 		ui_display_tx_desc_1();
 		break;
 	case UI_SIGN:
-		curr_scr_ix = max_scr_ix - 1;
+		//curr_scr_ix = max_scr_ix - 1;
 		//copy_tx_desc();
-		//ui_display_tx_desc_1();
+		ui_display_tx_desc_2();
 		break;
-*/
 	case UI_DENY:
 		ui_sign();
 		break;
@@ -540,10 +539,10 @@ static const bagl_element_t * tx_desc_up(const bagl_element_t *e) {
 static const bagl_element_t * tx_desc_dn(const bagl_element_t *e) {
 	switch (uiState) {
 	case UI_TOP_SIGN:
-		ui_deny();
+		//ui_deny();
 		//curr_scr_ix = 0;
 		//copy_tx_desc();
-		//ui_display_tx_desc_1();
+		ui_display_tx_desc_1();
 		break;
 /*
 	case UI_TX_DESC_1:
@@ -566,7 +565,14 @@ static const bagl_element_t * tx_desc_dn(const bagl_element_t *e) {
 
 	case UI_DENY:
 		ui_top_sign();
+                
 		break;
+        case UI_TX_DESC_1:
+                ui_display_tx_desc_2();
+                break;
+        case UI_TX_DESC_2:
+                ui_sign();
+                break;
 
 	default:
 		hashTainted = 1;
@@ -580,10 +586,24 @@ static const bagl_element_t * tx_desc_dn(const bagl_element_t *e) {
 const bagl_element_t*io_seproxyhal_touch_approve(const bagl_element_t *e) {
 	unsigned int tx = 0;
 
+       // union {
+       //  cx_sha256_t shasha;
+       //  cx_ripemd160_t riprip;
+        //} u;
+       // unsigned char buffer[32];
+       // unsigned char buffer2[32];
+      //  unsigned int buffer_len = 32;
+       // cx_sha256_init(&u.shasha);
+
+//os_memset(raw_tx, '\0', 68);
+//os_memmove(raw_tx, buffer2, 32);
+//raw_tx_len = 64;
+        //raw_tx_len = 32;
 	if (G_io_apdu_buffer[2] == P1_LAST) {
 		unsigned int raw_tx_len_except_bip44 = raw_tx_len - BIP44_BYTE_LENGTH;
 		// Update and sign the hash
 		cx_hash(&hash.header, 0, raw_tx, raw_tx_len_except_bip44, NULL);
+
 
 		unsigned char * bip44_in = raw_tx + raw_tx_len_except_bip44;
 
@@ -602,9 +622,18 @@ const bagl_element_t*io_seproxyhal_touch_approve(const bagl_element_t *e) {
 		cx_ecdsa_init_private_key(CX_CURVE_256R1, privateKeyData, 32, &privateKey);
 
 		// Hash is finalized, send back the signature
-		unsigned char result[32];
+		unsigned char tmp[32];
+                unsigned char tmp2[32];
+                unsigned char result[32];
+              cx_hash(&hash.header, CX_LAST, raw_tx, 0, tmp);
 
-		cx_hash(&hash.header, CX_LAST, G_io_apdu_buffer, 0, result);
+	       cx_sha256_t hashTmp;
+	       cx_sha256_init(&hashTmp);
+		cx_hash(&hashTmp.header, CX_LAST, tmp, 32, tmp2);
+
+	       cx_sha256_t hashTmp2;
+	       cx_sha256_init(&hashTmp2);
+                cx_hash(&hashTmp2.header, CX_LAST, tmp2, 32, result);
 #if CX_APILEVEL >= 8		
 		tx = cx_ecdsa_sign((void*) &privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256, result, sizeof(result), G_io_apdu_buffer, NULL);
 #else		
@@ -619,7 +648,7 @@ const bagl_element_t*io_seproxyhal_touch_approve(const bagl_element_t *e) {
 		G_io_apdu_buffer[tx++] = 0xFF;
 		G_io_apdu_buffer[tx++] = 0xFF;
 		for (int ix = 0; ix < 32; ix++) {
-			G_io_apdu_buffer[tx++] = result[ix];
+			G_io_apdu_buffer[tx++] = tmp2[ix];
 		}
 	}
 	G_io_apdu_buffer[tx++] = 0x90;
@@ -722,9 +751,9 @@ static void ui_display_tx_desc_2(void) {
 static void ui_sign(void) {
 	uiState = UI_SIGN;
 	if (os_seph_features() & SEPROXYHAL_TAG_SESSION_START_EVENT_FEATURE_SCREEN_BIG) {
-		UX_DISPLAY(bagl_ui_sign_blue, NULL);
+		UX_DISPLAY(bagl_ui_top_sign_blue, NULL);
 	} else {
-		UX_DISPLAY(bagl_ui_sign_nanos, NULL);
+		UX_DISPLAY(bagl_ui_top_sign_nanos, NULL);
 	}
 }
 

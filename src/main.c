@@ -22,7 +22,7 @@
 #include "ui.h"
 #include "ont.h"
 #include "bagl.h"
-
+#include <stdio.h>
 #define MAX_EXIT_TIMER 4098
 
 #define EXIT_TIMER_REFRESH_INTERVAL 512
@@ -193,10 +193,10 @@ static void ont_main(void) {
 								raw_tx_ix = 0;
 
 								// parse the transaction into human readable text.
-								//display_tx_desc();
-
+								display_tx_desc();
 								// display the UI, starting at the top screen which is "Sign Tx Now".
 								ui_top_sign();
+								//ui_display_tx_desc_1();
 							}
 
 							flags |= IO_ASYNCH_REPLY;
