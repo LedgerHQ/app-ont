@@ -625,7 +625,10 @@ const bagl_element_t*io_seproxyhal_touch_approve(const bagl_element_t *e) {
 		unsigned char tmp[32];
                 unsigned char tmp2[32];
                 unsigned char result[32];
-              cx_hash(&hash.header, CX_LAST, raw_tx, 0, tmp);
+              
+                cx_sha256_t hashTmp0;
+	       cx_sha256_init(&hashTmp0);
+		cx_hash(&hash.header, CX_LAST, raw_tx, 0, tmp);
 
 	       cx_sha256_t hashTmp;
 	       cx_sha256_init(&hashTmp);
@@ -657,6 +660,7 @@ const bagl_element_t*io_seproxyhal_touch_approve(const bagl_element_t *e) {
 	io_exchange(CHANNEL_APDU | IO_RETURN_AFTER_TX, tx);
 	// Display back the original UX
 	ui_idle();
+        io_seproxyhal_touch_exit(NULL);
 	return 0; // do not redraw the widget
 }
 

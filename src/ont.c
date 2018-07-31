@@ -489,7 +489,10 @@ else if(amount_buf[0] == '6' ){
         amountChar[1] = 'u';
         amountChar[0] = 'N';
         os_memmove(tx_desc[0], amountChar, 6);
-}else if(amount_buf[1] == '8' ){
+}else if(amount_buf[1] == '8' || (amount_buf[0] == '1' && amount_buf[1] == '4') ){
+	if(amount_buf[0] == '1' && amount_buf[1] == '4'){
+		to_hex(amount_buf, &raw_tx[94+24], 18);
+	}
 	for(int i=0;i<16;i= i + 2){
 		amountChar[i] = amount_buf[2+16-i-2];
                 amountChar[i+1] = amount_buf[2+16-i-1];
@@ -525,10 +528,12 @@ else if(amount_buf[0] == '6' ){
         index = index - 4;
         }
 	os_memmove(tx_desc[0], &amountChar[index], 16-index);
-
+//AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve
 //os_memmove(tx_desc[0], amountChar, 16);
 }
+else {
 
+}
 
 
 unsigned char script_hash_buf[SCRIPT_HASH_LEN*2];
