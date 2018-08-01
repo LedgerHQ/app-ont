@@ -441,7 +441,10 @@ static unsigned char next_raw_tx() {
 
 void display_tx_desc() {
     char amount_buf[MAX_TX_TEXT_WIDTH];
-
+os_memmove(curr_tx_desc[0], TXT_BLANK, sizeof(TXT_BLANK));
+os_memmove(curr_tx_desc[1], TXT_BLANK, sizeof(TXT_BLANK));
+os_memmove(curr_tx_desc[2], TXT_BLANK, sizeof(TXT_BLANK));
+os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
 
     to_hex(amount_buf, &raw_tx[94], 18);
 
