@@ -49,7 +49,7 @@ extern char timer_desc[MAX_TIMER_TEXT_WIDTH];
 #define MAX_TX_TEXT_WIDTH 18
 
 /** max lines of text to display. */
-#define MAX_TX_TEXT_LINES 4
+#define MAX_TX_TEXT_LINES 3
 
 /** max number of screens to display. */
 #define MAX_TX_TEXT_SCREENS 9
@@ -102,7 +102,7 @@ extern unsigned int raw_tx_len;
 extern char tx_desc[MAX_TX_TEXT_SCREENS][MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
 
 /** currently displayed text description. */
-extern char curr_tx_desc[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
+extern char curr_tx_desc[MAX_TX_TEXT_LINES+1][MAX_TX_TEXT_WIDTH];
 
 /** currently displayed public key */
 extern char current_public_key[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];

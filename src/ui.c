@@ -52,7 +52,7 @@ unsigned int raw_tx_len;
 char tx_desc[MAX_TX_TEXT_SCREENS][MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
 
 /** currently displayed text description. */
-char curr_tx_desc[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
+char curr_tx_desc[MAX_TX_TEXT_LINES+1][MAX_TX_TEXT_WIDTH];
 
 /** currently displayed public key */
 char current_public_key[MAX_TX_TEXT_LINES][MAX_TX_TEXT_WIDTH];
@@ -653,13 +653,13 @@ const bagl_element_t *io_seproxyhal_touch_approve(const bagl_element_t *e) {
 
         cx_hash(&hash.header, CX_LAST, raw_tx, 0, tmp);
 
-        cx_sha256_t hashTmp;
-        cx_sha256_init(&hashTmp);
-        cx_hash(&hashTmp.header, CX_LAST, tmp, 32, tmp2);
+        //cx_sha256_t hashTmp;
+        cx_sha256_init(&hash);
+        cx_hash(&hash.header, CX_LAST, tmp, 32, tmp2);
 
-        cx_sha256_t hashTmp2;
-        cx_sha256_init(&hashTmp2);
-        cx_hash(&hashTmp2.header, CX_LAST, tmp2, 32, result);
+        //cx_sha256_t hashTmp2;
+        cx_sha256_init(&hash);
+        cx_hash(&hash.header, CX_LAST, tmp2, 32, result);
 #if CX_APILEVEL >= 8
         tx = cx_ecdsa_sign((void*) &privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256, result, sizeof(result), G_io_apdu_buffer, NULL);
 #else
@@ -685,7 +685,7 @@ const bagl_element_t *io_seproxyhal_touch_approve(const bagl_element_t *e) {
     // Display back the original UX
     ui_idle();
     //fix bug
-    io_seproxyhal_touch_exit(NULL);
+    //io_seproxyhal_touch_exit(NULL);
     return 0; // do not redraw the widget
 }
 

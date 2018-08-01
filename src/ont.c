@@ -442,10 +442,6 @@ static unsigned char next_raw_tx() {
 void display_tx_desc() {
     char amount_buf[MAX_TX_TEXT_WIDTH];
 
-    os_memmove(tx_desc[0][0], TXT_BLANK, sizeof(TXT_BLANK));
-    os_memmove(tx_desc[1][0], TXT_BLANK, sizeof(TXT_BLANK));
-    os_memmove(tx_desc[2][0], TXT_BLANK, sizeof(TXT_BLANK));
-    os_memmove(tx_desc[3][0], TXT_BLANK, sizeof(TXT_BLANK));
 
     to_hex(amount_buf, &raw_tx[94], 18);
 
@@ -459,14 +455,14 @@ void display_tx_desc() {
             amountChar[2] = 'm';
             amountChar[1] = 'u';
             amountChar[0] = 'N';
-            os_memmove(tx_desc[0], amountChar, 6);
+            os_memmove(curr_tx_desc[0], amountChar, 6);
         } else {
             amountChar[4] = amount_buf[1];
             amountChar[3] = ':';
             amountChar[2] = 'm';
             amountChar[1] = 'u';
             amountChar[0] = 'N';
-            os_memmove(tx_desc[0], amountChar, 5);
+            os_memmove(curr_tx_desc[0], amountChar, 5);
         }
     } else if (amount_buf[0] == '6') {
         amountChar[4] = '1';
@@ -475,7 +471,7 @@ void display_tx_desc() {
         amountChar[2] = 'm';
         amountChar[1] = 'u';
         amountChar[0] = 'N';
-        os_memmove(tx_desc[0], amountChar, 6);
+        os_memmove(curr_tx_desc[0], amountChar, 6);
     } else if (amount_buf[1] == '8' || (amount_buf[0] == '1' && amount_buf[1] == '4')) {
         if (amount_buf[0] == '1' && amount_buf[1] == '4') {
             to_hex(amount_buf, &raw_tx[94 + 24], 18);
@@ -514,7 +510,7 @@ void display_tx_desc() {
             amountChar[index - 4] = 'N';
             index = index - 4;
         }
-        os_memmove(tx_desc[0], &amountChar[index], 16 - index);
+        os_memmove(curr_tx_desc[0], &amountChar[index], 16 - index);
     } else {
 
     }
@@ -541,14 +537,14 @@ void display_tx_desc() {
     char *address_base58_2 = address_base58 + address_base58_len_0 + address_base58_len_1;
     to_address(address_base58, ADDRESS_BASE58_LEN, script_hash);
 
-    os_memmove(tx_desc[1], address_base58_0, address_base58_len_0);
-    os_memmove(tx_desc[2], address_base58_1, address_base58_len_1);
-    os_memmove(tx_desc[3], address_base58_2, address_base58_len_2);
+    os_memmove(curr_tx_desc[1], address_base58_0, address_base58_len_0);
+    os_memmove(curr_tx_desc[2], address_base58_1, address_base58_len_1);
+    os_memmove(curr_tx_desc[3], address_base58_2, address_base58_len_2);
 
-    os_memmove(curr_tx_desc[0], tx_desc[0], CURR_TX_DESC_LEN);
-    os_memmove(curr_tx_desc[1], tx_desc[1], CURR_TX_DESC_LEN);
-    os_memmove(curr_tx_desc[2], tx_desc[2], CURR_TX_DESC_LEN);
-    os_memmove(curr_tx_desc[3], tx_desc[3], CURR_TX_DESC_LEN);
+   // os_memmove(curr_tx_desc[0], tx_desc[0], CURR_TX_DESC_LEN);
+   // os_memmove(curr_tx_desc[1], tx_desc[1], CURR_TX_DESC_LEN);
+   // os_memmove(curr_tx_desc[2], tx_desc[2], CURR_TX_DESC_LEN);
+   // os_memmove(curr_tx_desc[3], tx_desc[3], CURR_TX_DESC_LEN);
 
 }
 
