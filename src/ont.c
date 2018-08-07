@@ -439,53 +439,60 @@ static unsigned char next_raw_tx() {
     }
 }
 
-void display_tx_desc() {
+
+void display_tx_desc() 
+{
     char amount_buf[MAX_TX_TEXT_WIDTH];
-os_memmove(curr_tx_desc[0], TXT_BLANK, sizeof(TXT_BLANK));
-os_memmove(curr_tx_desc[1], TXT_BLANK, sizeof(TXT_BLANK));
-os_memmove(curr_tx_desc[2], TXT_BLANK, sizeof(TXT_BLANK));
-os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
+    os_memmove(curr_tx_desc[0], TXT_BLANK, sizeof(TXT_BLANK));
+    os_memmove(curr_tx_desc[1], TXT_BLANK, sizeof(TXT_BLANK));
+    os_memmove(curr_tx_desc[2], TXT_BLANK, sizeof(TXT_BLANK));
+    os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
+
 
     to_hex(amount_buf, &raw_tx[94], 18);
 
-
     char amountChar[MAX_TX_TEXT_WIDTH];
-    if (amount_buf[0] == '5') {
-        if (amount_buf[1] >= 'A') {
-            amountChar[4] = '1';
+    char is_claim=0;
+
+    // numbers < 16
+    if (amount_buf[0] == '5') 
+    {
+        if (amount_buf[1] >= 'A') 
+        {
+            strcpy(amountChar, "ONT 1");
             amountChar[5] = amount_buf[1] - 'A' + '0';
-            amountChar[3] = ':';
-            amountChar[2] = 'm';
-            amountChar[1] = 'u';
-            amountChar[0] = 'N';
             os_memmove(curr_tx_desc[0], amountChar, 6);
-        } else {
+        } 
+        else 
+        {
+            strcpy(amountChar, "ONT ");
             amountChar[4] = amount_buf[1];
-            amountChar[3] = ':';
-            amountChar[2] = 'm';
-            amountChar[1] = 'u';
-            amountChar[0] = 'N';
             os_memmove(curr_tx_desc[0], amountChar, 5);
         }
-    } else if (amount_buf[0] == '6') {
-        amountChar[4] = '1';
-        amountChar[5] = '6';
-        amountChar[3] = ':';
-        amountChar[2] = 'm';
-        amountChar[1] = 'u';
-        amountChar[0] = 'N';
+    } 
+    else if (amount_buf[0] == '6') 
+    {
+        strcpy(amountChar, "ONT 16");
         os_memmove(curr_tx_desc[0], amountChar, 6);
-    } else if (amount_buf[1] == '8' || (amount_buf[0] == '1' && amount_buf[1] == '4')) {
-        if (amount_buf[0] == '1' && amount_buf[1] == '4') {
+    } 
+    // Numbers >= 16: first byte indicates length of amount (LE encoded)
+    else if (amount_buf[1] == '8' || (amount_buf[0] == '1' && amount_buf[1] == '4')) 
+    {
+        // if 0x14, it's a claim transaction
+        if (amount_buf[0] == '1' && amount_buf[1] == '4') 
+        {
+            is_claim = 1;
             to_hex(amount_buf, &raw_tx[94 + 24], 18);
         }
-        for (int i = 0; i < 16; i = i + 2) {
+        for (int i = 0; i < 16; i = i + 2) 
+        {
             amountChar[i] = amount_buf[2 + 16 - i - 2];
             amountChar[i + 1] = amount_buf[2 + 16 - i - 1];
         }
 
         int amount = 0;
-        for (int i = 0; i < 16; i = i + 2) {
+        for (int i = 0; i < 16; i = i + 2) 
+        {
             unsigned char high = '0';
             unsigned char low = '0';
 
@@ -496,8 +503,11 @@ os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
         amountChar[15] = amount % 10 + '0';
         amount = amount / 10;
         int index = 0;
-        for (int i = 14; i >= 0; i--) {
-            if (amount < 10) {
+
+        for (int i = 14; i >= 0; i--) 
+        {
+            if (amount < 10) 
+            {
                 amountChar[i] = amount + '0';
                 amount = amount / 10;
                 index = i;
@@ -506,17 +516,21 @@ os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
             amountChar[i] = amount % 10 + '0';
             amount = amount / 10;
         }
-        if (index >= 4) {
-            amountChar[index - 1] = ':';
-            amountChar[index - 2] = 'm';
-            amountChar[index - 3] = 'u';
-            amountChar[index - 4] = 'N';
+        // case where the number is too big to fit, we don't display ONT symbol
+        if (index >= 4) 
+        {
+            amountChar[index - 4] = 'O';
+            amountChar[index - 3] = 'N';
+            amountChar[index - 2] = 'T';
+            amountChar[index - 1] = ' ';
+
+            //change token name for claim
+            if(is_claim) amountChar[index - 2] = 'G';
+            
             index = index - 4;
         }
         os_memmove(curr_tx_desc[0], &amountChar[index], 16 - index);
-    } else {
-
-    }
+    } 
 
 
     unsigned char script_hash_buf[SCRIPT_HASH_LEN * 2];
@@ -544,311 +558,9 @@ os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
     os_memmove(curr_tx_desc[2], address_base58_1, address_base58_len_1);
     os_memmove(curr_tx_desc[3], address_base58_2, address_base58_len_2);
 
-   // os_memmove(curr_tx_desc[0], tx_desc[0], CURR_TX_DESC_LEN);
-   // os_memmove(curr_tx_desc[1], tx_desc[1], CURR_TX_DESC_LEN);
-   // os_memmove(curr_tx_desc[2], tx_desc[2], CURR_TX_DESC_LEN);
-   // os_memmove(curr_tx_desc[3], tx_desc[3], CURR_TX_DESC_LEN);
 
 }
 
-/** parse the raw transaction in raw_tx and fill up the screens in tx_desc. */
-unsigned char display_tx_desc_neo() {
-    unsigned int scr_ix = 0;
-    char hex_buffer[MAX_TX_TEXT_WIDTH];
-    unsigned int hex_buffer_len = 0;
-    os_memmove(tx_desc[scr_ix][0], TXT_VERSION, sizeof(TXT_VERSION));
-    enum TX_TYPE trans_type = next_raw_tx();
-    if (SHOW_TX_TYPE) {
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            // add transaction type screen.
-            os_memmove(tx_desc[scr_ix][0], TXT_BLANK, sizeof(TXT_BLANK));
-            switch (trans_type) {
-                case TX_MINER:
-                    os_memmove(tx_desc[scr_ix][1], TX_MINER_NM, sizeof(TX_MINER_NM));
-                    break;
-
-                case TX_ISSUE:
-                    os_memmove(tx_desc[scr_ix][1], TX_ISSUE_NM, sizeof(TX_ISSUE_NM));
-                    break;
-
-                case TX_CLAIM:
-                    os_memmove(tx_desc[scr_ix][1], TX_CLAIM_NM, sizeof(TX_CLAIM_NM));
-                    break;
-
-                case TX_ENROLL:
-                    os_memmove(tx_desc[scr_ix][1], TX_ENROLL_NM, sizeof(TX_ENROLL_NM));
-                    break;
-
-                case TX_REGISTER:
-                    os_memmove(tx_desc[scr_ix][1], TX_REGISTER_NM, sizeof(TX_REGISTER_NM));
-                    break;
-
-                case TX_CONTRACT:
-                    os_memmove(tx_desc[scr_ix][1], TX_CONTRACT_NM, sizeof(TX_CONTRACT_NM));
-                    break;
-
-                case TX_PUBLISH:
-                    os_memmove(tx_desc[scr_ix][1], TX_PUBLISH_NM, sizeof(TX_PUBLISH_NM));
-                    break;
-
-                case TX_INVOKE:
-                    os_memmove(tx_desc[scr_ix][1], TX_INVOKE_NM, sizeof(TX_INVOKE_NM));
-                    break;
-
-                default:
-                    hashTainted = 1;
-                    THROW(0x6D06);
-
-            }
-
-            if (SHOW_TX_LEN) {
-                hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_len)) * 2;
-                to_hex(hex_buffer, (unsigned char *) &raw_tx_len, hex_buffer_len);
-                os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            } else {
-                os_memmove(tx_desc[scr_ix][2], TXT_BLANK, sizeof(TXT_BLANK));
-            }
-            scr_ix++;
-        }
-    }
-
-    // the version screen.
-    unsigned char version = next_raw_tx();
-    if (SHOW_VERSION) {
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memmove(tx_desc[scr_ix][0], TXT_VERSION, sizeof(TXT_VERSION));
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(version)) * 2;
-            to_hex(hex_buffer, &version, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_ix)) * 2;
-            to_hex(hex_buffer, (unsigned char *) &raw_tx_ix, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            scr_ix++;
-        }
-    }
-
-    // the exclusive data screen.
-    switch (trans_type) {
-        case TX_CLAIM: {
-            unsigned char num_coin_claims = next_raw_tx_varbytes_num();
-            if (SHOW_EXCLUSIVE_DATA) {
-                if (scr_ix < MAX_TX_TEXT_SCREENS) {
-                    os_memmove(tx_desc[scr_ix][0], TXT_CLAIMS, sizeof(TXT_CLAIMS));
-
-                    hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(num_coin_claims)) * 2;
-                    to_hex(hex_buffer, &num_coin_claims, hex_buffer_len);
-                    os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-                    hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_ix)) * 2;
-                    to_hex(hex_buffer, (unsigned char *) &raw_tx_ix, hex_buffer_len);
-                    os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-                    scr_ix++;
-                }
-            }
-            skip_raw_tx(num_coin_claims * COIN_REFERENCES_LEN);
-        }
-            break;
-        case TX_INVOKE: {
-            unsigned char script_len = next_raw_tx_varbytes_num();
-            skip_raw_tx(script_len);
-            if (version >= 1) {
-                //UInt64.SIZE = 8
-                skip_raw_tx(8);
-            }
-        }
-            break;
-        default:
-            break;
-    }
-
-    //  attributes screen.
-    unsigned char num_attr = next_raw_tx_varbytes_num();
-    if (SHOW_NUM_ATTRIBUTES) {
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memmove(tx_desc[scr_ix][0], TXT_NUM_ATTR, sizeof(TXT_NUM_ATTR));
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(num_attr)) * 2;
-            to_hex(hex_buffer, &num_attr, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_ix)) * 2;
-            to_hex(hex_buffer, (unsigned char *) &raw_tx_ix, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            scr_ix++;
-        }
-    }
-
-    for (int attr_ix = 0; attr_ix < num_attr; attr_ix++) {
-        enum TransactionAttributeUsage attr_usage = next_raw_tx();
-        switch (attr_usage) {
-            case CONTRACT_HASH:
-            case VOTE:
-            case HASH1:
-            case HASH2:
-            case HASH3:
-            case HASH4:
-            case HASH5:
-            case HASH6:
-            case HASH7:
-            case HASH8:
-            case HASH9:
-            case HASH10:
-            case HASH11:
-            case HASH12:
-            case HASH13:
-            case HASH14:
-            case HASH15:
-                skip_raw_tx(32);
-                break;
-
-            case ECDH02:
-            case ECDH03:
-                skip_raw_tx(32);
-                break;
-
-            case SCRIPT:
-                skip_raw_tx(20);
-                break;
-
-            case DESCRIPTION_URL:
-                skip_raw_tx(next_raw_tx());
-                break;
-
-            case DESCRIPTION:
-            case REMARK:
-                skip_raw_tx(next_raw_tx_varbytes_num());
-                break;
-
-            default:
-                hashTainted = 1;
-                THROW(0x6D07);
-        }
-    }
-
-    // Coin Reference screen.
-    unsigned char num_coin_references = next_raw_tx_varbytes_num();
-    if (SHOW_NUM_COIN_REFERENCES) {
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memmove(tx_desc[scr_ix][0], TXT_NUM_TXIN, sizeof(TXT_NUM_TXIN));
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(num_coin_references)) * 2;
-            to_hex(hex_buffer, &num_coin_references, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_ix)) * 2;
-            to_hex(hex_buffer, (unsigned char *) &raw_tx_ix, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            scr_ix++;
-        }
-    }
-    skip_raw_tx(num_coin_references * COIN_REFERENCES_LEN);
-
-    // transaction output screen.
-    unsigned char num_tx_outs = next_raw_tx_varbytes_num();
-    if (SHOW_NUM_TX_OUTS) {
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memmove(tx_desc[scr_ix][0], TXT_NUM_TXOUT, sizeof(TXT_NUM_TXOUT));
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(num_tx_outs)) * 2;
-            to_hex(hex_buffer, &num_tx_outs, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-            hex_buffer_len = min(MAX_HEX_BUFFER_LEN, sizeof(raw_tx_ix)) * 2;
-            to_hex(hex_buffer, (unsigned char *) &raw_tx_ix, hex_buffer_len);
-            os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            scr_ix++;
-        }
-    }
-
-    unsigned char asset_id[ASSET_ID_LEN];
-    unsigned char value[VALUE_LEN];
-    unsigned char script_hash[SCRIPT_HASH_LEN];
-    unsigned int script_hash_len0 = 6;
-    unsigned int script_hash_len1 = 7;
-    unsigned int script_hash_len2 = 7;
-    unsigned char *script_hash0 = script_hash;
-    unsigned char *script_hash1 = script_hash + script_hash_len0;
-    unsigned char *script_hash2 = script_hash + script_hash_len0 + script_hash_len1;
-
-    char address_base58[ADDRESS_BASE58_LEN];
-    unsigned int address_base58_len_0 = 11;
-    unsigned int address_base58_len_1 = 11;
-    unsigned int address_base58_len_2 = 12;
-    char *address_base58_0 = address_base58;
-    char *address_base58_1 = address_base58 + address_base58_len_0;
-    char *address_base58_2 = address_base58 + address_base58_len_0 + address_base58_len_1;
-
-    for (unsigned int ix = 0; ix < num_tx_outs; ix++) {
-        next_raw_tx_arr(asset_id, ASSET_ID_LEN);
-        next_raw_tx_arr(value, VALUE_LEN);
-        next_raw_tx_arr(script_hash, SCRIPT_HASH_LEN);
-
-        to_address(address_base58, ADDRESS_BASE58_LEN, script_hash);
-
-        // asset_id and value screen
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memset(tx_desc[scr_ix], '\0', CURR_TX_DESC_LEN);
-            // asset id
-            if (is_asset_id(asset_id, ONT_ASSET_ID)) {
-                os_memmove(tx_desc[scr_ix][0], TXT_ASSET_ONT, sizeof(TXT_ASSET_ONT));
-            } else if (is_asset_id(asset_id, ONG_ASSET_ID)) {
-                os_memmove(tx_desc[scr_ix][0], TXT_ASSET_ONG, sizeof(TXT_ASSET_ONG));
-            } else {
-                os_memmove(tx_desc[scr_ix][0], TXT_ASSET_UNKNOWN, sizeof(TXT_ASSET_UNKNOWN));
-            }
-
-            // value, base 10.
-            to_base10_100m(tx_desc[scr_ix][1], value, MAX_TX_TEXT_WIDTH);
-
-            // value, base 16.
-            if (SHOW_VALUE_HEX) {
-                hex_buffer_len = min(MAX_HEX_BUFFER_LEN, VALUE_LEN) * 2;
-                to_hex(hex_buffer, value, hex_buffer_len);
-                os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-            } else {
-                os_memmove(tx_desc[scr_ix][2], TXT_BLANK, sizeof(TXT_BLANK));
-            }
-            scr_ix++;
-        }
-
-        // script hash screen
-        if (SHOW_SCRIPT_HASH) {
-            if (scr_ix < MAX_TX_TEXT_SCREENS) {
-                hex_buffer_len = min(MAX_HEX_BUFFER_LEN, script_hash_len0) * 2;
-                to_hex(hex_buffer, script_hash0, hex_buffer_len);
-                os_memmove(tx_desc[scr_ix][0], hex_buffer, hex_buffer_len);
-
-                hex_buffer_len = min(MAX_HEX_BUFFER_LEN, script_hash_len1) * 2;
-                to_hex(hex_buffer, script_hash1, hex_buffer_len);
-                os_memmove(tx_desc[scr_ix][1], hex_buffer, hex_buffer_len);
-
-                hex_buffer_len = min(MAX_HEX_BUFFER_LEN, script_hash_len2) * 2;
-                to_hex(hex_buffer, script_hash2, hex_buffer_len);
-                os_memmove(tx_desc[scr_ix][2], hex_buffer, hex_buffer_len);
-
-                scr_ix++;
-            }
-        }
-
-        // address screen
-        if (scr_ix < MAX_TX_TEXT_SCREENS) {
-            os_memset(tx_desc[scr_ix], '\0', CURR_TX_DESC_LEN);
-            os_memmove(tx_desc[scr_ix][0], address_base58_0, address_base58_len_0);
-            os_memmove(tx_desc[scr_ix][1], address_base58_1, address_base58_len_1);
-            os_memmove(tx_desc[scr_ix][2], address_base58_2, address_base58_len_2);
-
-            scr_ix++;
-        }
-    }
-
-    max_scr_ix = scr_ix;
-
-    os_memmove(curr_tx_desc, tx_desc[curr_scr_ix], CURR_TX_DESC_LEN);
-
-    return 1;
-}
 
 void display_no_public_key() {
     os_memmove(current_public_key[0], TXT_BLANK, sizeof(TXT_BLANK));

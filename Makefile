@@ -43,6 +43,8 @@ DEFINES += APPVERSION=\"$(APPVERSION)\"
 DEFINES += OS_IO_SEPROXYHAL IO_SEPROXYHAL_BUFFER_SIZE_B=128
 DEFINES += HAVE_BAGL HAVE_SPRINTF
 DEFINES += PRINTF\(...\)=
+#DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+
 
 DEFINES += CX_COMPLIANCE_141
 
@@ -93,3 +95,7 @@ delete:
 # Import generic rules from the SDK
 
 include $(BOLOS_SDK)/Makefile.rules
+
+
+listvariants:
+	@echo VARIANTS ontology

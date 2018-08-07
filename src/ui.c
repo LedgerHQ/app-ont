@@ -544,21 +544,12 @@ static const bagl_element_t *tx_desc_up(const bagl_element_t *e) {
             break;
         case UI_TX_DESC_1:
             ui_top_sign();
-            if (curr_scr_ix == 0) {
-                //ui_top_sign();
-            } else {
-                //curr_scr_ix--;
-                //copy_tx_desc();
-                //ui_display_tx_desc_2();
-            }
             break;
 
         case UI_TX_DESC_2:
             ui_display_tx_desc_1();
             break;
         case UI_SIGN:
-            //curr_scr_ix = max_scr_ix - 1;
-            //copy_tx_desc();
             ui_display_tx_desc_2();
             break;
         case UI_DENY:
@@ -577,26 +568,9 @@ static const bagl_element_t *tx_desc_up(const bagl_element_t *e) {
 static const bagl_element_t *tx_desc_dn(const bagl_element_t *e) {
     switch (uiState) {
         case UI_TOP_SIGN:
-            //ui_deny();
-            //curr_scr_ix = 0;
-            //copy_tx_desc();
             ui_display_tx_desc_1();
             break;
-/*
-	case UI_TX_DESC_1:
-		ui_display_tx_desc_2();
-		break;
 
-	case UI_TX_DESC_2:
-		if (curr_scr_ix == max_scr_ix - 1) {
-			ui_sign();
-		} else {
-			curr_scr_ix++;
-			//copy_tx_desc();
-			//ui_display_tx_desc_1();
-		}
-		break;
-*/
         case UI_SIGN:
             ui_deny();
             break;
@@ -648,18 +622,15 @@ const bagl_element_t *io_seproxyhal_touch_approve(const bagl_element_t *e) {
 
         // Hash is finalized, send back the signature
         unsigned char tmp[32];
-        unsigned char tmp2[32];
         unsigned char result[32];
 
         cx_hash(&hash.header, CX_LAST, raw_tx, 0, tmp);
 
-        //cx_sha256_t hashTmp;
         cx_sha256_init(&hash);
-        cx_hash(&hash.header, CX_LAST, tmp, 32, tmp2);
+        cx_hash(&hash.header, CX_LAST, tmp, 32, tmp);
 
-        //cx_sha256_t hashTmp2;
         cx_sha256_init(&hash);
-        cx_hash(&hash.header, CX_LAST, tmp2, 32, result);
+        cx_hash(&hash.header, CX_LAST, tmp, 32, result);
 #if CX_APILEVEL >= 8
         tx = cx_ecdsa_sign((void*) &privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256, result, sizeof(result), G_io_apdu_buffer, NULL);
 #else
@@ -675,7 +646,7 @@ const bagl_element_t *io_seproxyhal_touch_approve(const bagl_element_t *e) {
         G_io_apdu_buffer[tx++] = 0xFF;
         G_io_apdu_buffer[tx++] = 0xFF;
         for (int ix = 0; ix < 32; ix++) {
-            G_io_apdu_buffer[tx++] = tmp2[ix];
+            G_io_apdu_buffer[tx++] = tmp[ix];
         }
     }
     G_io_apdu_buffer[tx++] = 0x90;
