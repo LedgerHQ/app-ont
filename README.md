@@ -22,9 +22,7 @@ All errors on ONT 1.0 start with 0x6D (because I read the spec wrong).
 - `0x6D12` base_x encoded string is too long for available decoding memory.
 - `0x6D14` base_x encoding error.
 
-# blue-app-ont CE
-
-This is the community edition of the Ledger Nano S app for the ONT Cryptocoin.
+# ledger-app-ont
 
 Run `make load` to build and load the application onto the device.
 
