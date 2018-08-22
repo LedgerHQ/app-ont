@@ -521,7 +521,7 @@ void display_tx_desc()
             amountChar[i] = amount % 10 + '0';
             amount = amount / 10;
         }
-        if( (amount_buf[1] == '8' && raw_tx[94 + 44] == 0x02) || is_claim) {  //transfer ong or claim
+        if( (amount_buf[1] == '8' && raw_tx[94 + 44] == 0x02) || is_claim == 1) {  //transfer ong or claim
             if(index < 7 && index > 0){
                 for(int i = index; i < 7;i++){
                         amountChar[i - 1] = amountChar[i];
@@ -563,7 +563,11 @@ void display_tx_desc()
 
 
     unsigned char script_hash_buf[SCRIPT_HASH_LEN * 2];
-    to_hex(script_hash_buf, &raw_tx[71], SCRIPT_HASH_LEN * 2);
+    if(is_claim == 1){
+        to_hex(script_hash_buf, &raw_tx[95], SCRIPT_HASH_LEN * 2);
+    }else{
+        to_hex(script_hash_buf, &raw_tx[71], SCRIPT_HASH_LEN * 2);
+    }
     unsigned char script_hash[SCRIPT_HASH_LEN];
 
     for (int i = 0; i < SCRIPT_HASH_LEN; i++) {
