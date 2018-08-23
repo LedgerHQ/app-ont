@@ -134,7 +134,9 @@ enum TransactionAttributeUsage {
 
 /** MAX_TX_TEXT_WIDTH in blanks, used for clearing a line of text */
 static const char TXT_BLANK[] = "                 ";
-
+static const char ONT_TRANSFER[] = "ONT Transfer: ";
+static const char ONG_TRANSFER[] = "ONG Transfer: ";
+static const char ONG_CLAIM[] = "ONG Claim: ";
 /** #### Asset IDs #### */
 /** currently only ONT and ONG are supported, alll others show up as UNKNOWN */
 
@@ -447,7 +449,7 @@ void display_tx_desc()
     os_memmove(curr_tx_desc[1], TXT_BLANK, sizeof(TXT_BLANK));
     os_memmove(curr_tx_desc[2], TXT_BLANK, sizeof(TXT_BLANK));
     os_memmove(curr_tx_desc[3], TXT_BLANK, sizeof(TXT_BLANK));
-
+    os_memmove(curr_tx_desc[4], TXT_BLANK, sizeof(TXT_BLANK));
 
     to_hex(amount_buf, &raw_tx[94], 18);
 
@@ -461,20 +463,19 @@ void display_tx_desc()
         {
             amountChar[0] = '1';
             amountChar[1] = amount_buf[1] - 'A' + '0';
-            os_memmove(curr_tx_desc[0], amountChar, 2);
+            os_memmove(curr_tx_desc[1], amountChar, 2);
         } 
         else 
         {
             amountChar[0] = amount_buf[1];
-            os_memmove(curr_tx_desc[0], amountChar, 1);
+            os_memmove(curr_tx_desc[1], amountChar, 1);
         }
-    } 
-    else if (amount_buf[0] == '6')
-    {
-        amountChar[0] = '1';
-        amountChar[1] = '6';
-        os_memmove(curr_tx_desc[0], amountChar, 2);
-    } 
+        if(raw_tx[94 + 36] == 0x02){
+        	strcpy(curr_tx_desc[0], ONG_TRANSFER);
+        } else if(raw_tx[94 + 36] == 0x01){
+        	strcpy(curr_tx_desc[0], ONT_TRANSFER);
+        }
+    }
     // Numbers >= 16: first byte indicates length of amount (LE encoded)
     else if (amount_buf[1] == '8' || (amount_buf[0] == '1' && amount_buf[1] == '4')) 
     {
@@ -542,23 +543,15 @@ void display_tx_desc()
                 amountChar[6] = '.';
                 index = 5;
            }	
-	       }
-        // case where the number is too big to fit, we don't display ONT symbol
-        /*
-        if (index >= 4) 
-        {
-            amountChar[index - 4] = 'O';
-            amountChar[index - 3] = 'N';
-            amountChar[index - 2] = 'T';
-            amountChar[index - 1] = ' ';
-
-            //change token name for claim
-            if(is_claim) amountChar[index - 2] = 'G';
-            
-            index = index - 4;
-        }
-        */
-        os_memmove(curr_tx_desc[0], &amountChar[index], 16 - index);
+	    }
+	    if(is_claim == 1){
+	        strcpy(curr_tx_desc[0], ONG_CLAIM);
+	    }else if(raw_tx[94 + 44] == 0x02){
+	        strcpy(curr_tx_desc[0], ONG_TRANSFER);
+	    } else if(raw_tx[94 + 44] == 0x01){
+	        strcpy(curr_tx_desc[0], ONT_TRANSFER);
+	    }
+        os_memmove(curr_tx_desc[1], &amountChar[index], 16 - index);
     } 
 
 
@@ -587,9 +580,9 @@ void display_tx_desc()
     char *address_base58_2 = address_base58 + address_base58_len_0 + address_base58_len_1;
     to_address(address_base58, ADDRESS_BASE58_LEN, script_hash);
 
-    os_memmove(curr_tx_desc[1], address_base58_0, address_base58_len_0);
-    os_memmove(curr_tx_desc[2], address_base58_1, address_base58_len_1);
-    os_memmove(curr_tx_desc[3], address_base58_2, address_base58_len_2);
+    os_memmove(curr_tx_desc[2], address_base58_0, address_base58_len_0);
+    os_memmove(curr_tx_desc[3], address_base58_1, address_base58_len_1);
+    os_memmove(curr_tx_desc[4], address_base58_2, address_base58_len_2);
 
 
 }

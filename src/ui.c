@@ -68,6 +68,8 @@ static void ui_display_tx_desc_1(void);
 
 static void ui_display_tx_desc_2(void);
 
+static void ui_display_tx_desc_3(void);
+
 /** display the UI for signing a transaction */
 static void ui_sign(void);
 
@@ -422,7 +424,7 @@ static const bagl_element_t bagl_ui_tx_desc_nanos_1[] = {
         {{BAGL_RECTANGLE, 0x00, 0,   0,  128, 32, 0,         0, BAGL_FILL, 0x000000, 0xFFFFFF, 0,            0},                    NULL,            0, 0, 0, NULL, NULL, NULL,},
         /* screen 1 number */
         {{BAGL_LABELINE,  0x02, 0,   10, 20,  11, 0x80 | 10, 0, 0,         0xFFFFFF, 0x000000,
-                                                                                               TX_DESC_FONT, 0},                    "1/2",           0, 0, 0, NULL, NULL, NULL,},
+                                                                                               TX_DESC_FONT, 0},                    "1/3",           0, 0, 0, NULL, NULL, NULL,},
         /* first line of description of current screen */
         {{BAGL_LABELINE,  0x02, 10,  15, 108, 11, 0x80 |
                                                   10,        0, 0,         0xFFFFFF, 0x000000, TX_DESC_FONT, 0},                    curr_tx_desc[0], 0, 0, 0, NULL, NULL, NULL,},
@@ -444,13 +446,35 @@ static const bagl_element_t bagl_ui_tx_desc_nanos_2[] = {
         {{BAGL_RECTANGLE, 0x00, 0,   0,  128, 32, 0,         0, BAGL_FILL, 0x000000, 0xFFFFFF, 0,            0},                    NULL,            0, 0, 0, NULL, NULL, NULL,},
         /* screen 2 number */
         {{BAGL_LABELINE,  0x02, 0,   10, 20,  11, 0x80 | 10, 0, 0,         0xFFFFFF, 0x000000,
-                                                                                               TX_DESC_FONT, 0},                    "2/2",           0, 0, 0, NULL, NULL, NULL,},
+                                                                                               TX_DESC_FONT, 0},                    "2/3",           0, 0, 0, NULL, NULL, NULL,},
         /* second line of description of current screen */
         {{BAGL_LABELINE,  0x02, 10,  15, 108, 11, 0x80 |
                                                   10,        0, 0,         0xFFFFFF, 0x000000, TX_DESC_FONT, 0},                    curr_tx_desc[2], 0, 0, 0, NULL, NULL, NULL,},
         /* third line of description of current screen  */
         {{BAGL_LABELINE,  0x02, 10,  26, 108, 11, 0x80 |
                                                   10,        0, 0,         0xFFFFFF, 0x000000, TX_DESC_FONT, 0},                    curr_tx_desc[3], 0, 0, 0, NULL, NULL, NULL,},
+        /* left icon is up arrow  */
+        {{BAGL_ICON,      0x00, 3,   12, 7,   7,  0,         0, 0,         0xFFFFFF, 0x000000, 0,            BAGL_GLYPH_ICON_UP},   NULL,            0, 0, 0, NULL, NULL, NULL,},
+        /* right icon is down arrow */
+        {{BAGL_ICON,      0x00, 117, 13, 8,   6,  0,         0, 0,         0xFFFFFF, 0x000000, 0,            BAGL_GLYPH_ICON_DOWN}, NULL,            0, 0, 0, NULL, NULL, NULL,},
+/* */
+};
+
+/** UI struct for the transaction description screen, Nano S. */
+static const bagl_element_t bagl_ui_tx_desc_nanos_3[] = {
+// { {type, userid, x, y, width, height, stroke, radius, fill, fgcolor, bgcolor, font_id, icon_id},
+// text, touch_area_brim, overfgcolor, overbgcolor, tap, out, over,
+// },
+        {{BAGL_RECTANGLE, 0x00, 0,   0,  128, 32, 0,         0, BAGL_FILL, 0x000000, 0xFFFFFF, 0,            0},                    NULL,            0, 0, 0, NULL, NULL, NULL,},
+        /* screen 2 number */
+        {{BAGL_LABELINE,  0x02, 0,   10, 20,  11, 0x80 | 10, 0, 0,         0xFFFFFF, 0x000000,
+                                                                                               TX_DESC_FONT, 0},                    "3/3",           0, 0, 0, NULL, NULL, NULL,},
+        /* second line of description of current screen */
+        {{BAGL_LABELINE,  0x02, 10,  15, 108, 11, 0x80 |
+                                                  10,        0, 0,         0xFFFFFF, 0x000000, TX_DESC_FONT, 0},                    curr_tx_desc[3], 0, 0, 0, NULL, NULL, NULL,},
+        /* third line of description of current screen  */
+        {{BAGL_LABELINE,  0x02, 10,  26, 108, 11, 0x80 |
+                                                  10,        0, 0,         0xFFFFFF, 0x000000, TX_DESC_FONT, 0},                    curr_tx_desc[4], 0, 0, 0, NULL, NULL, NULL,},
         /* left icon is up arrow  */
         {{BAGL_ICON,      0x00, 3,   12, 7,   7,  0,         0, 0,         0xFFFFFF, 0x000000, 0,            BAGL_GLYPH_ICON_UP},   NULL,            0, 0, 0, NULL, NULL, NULL,},
         /* right icon is down arrow */
@@ -521,6 +545,19 @@ static unsigned int bagl_ui_tx_desc_nanos_2_button(unsigned int button_mask, uns
     return 0;
 }
 
+static unsigned int bagl_ui_tx_desc_nanos_3_button(unsigned int button_mask, unsigned int button_mask_counter) {
+    switch (button_mask) {
+        case BUTTON_EVT_RELEASED | BUTTON_RIGHT:
+            tx_desc_dn(NULL);
+            break;
+
+        case BUTTON_EVT_RELEASED | BUTTON_LEFT:
+            tx_desc_up(NULL);
+            break;
+    }
+    return 0;
+}
+
 /** if the user wants to exit go back to the app dashboard. */
 static const bagl_element_t *io_seproxyhal_touch_exit(const bagl_element_t *e) {
     // Go back to the dashboard
@@ -549,8 +586,11 @@ static const bagl_element_t *tx_desc_up(const bagl_element_t *e) {
         case UI_TX_DESC_2:
             ui_display_tx_desc_1();
             break;
-        case UI_SIGN:
+        case UI_TX_DESC_3:
             ui_display_tx_desc_2();
+            break;
+        case UI_SIGN:
+            ui_display_tx_desc_3();
             break;
         case UI_DENY:
             ui_sign();
@@ -583,6 +623,9 @@ static const bagl_element_t *tx_desc_dn(const bagl_element_t *e) {
             ui_display_tx_desc_2();
             break;
         case UI_TX_DESC_2:
+            ui_display_tx_desc_3();
+            break;
+        case UI_TX_DESC_3:
             ui_sign();
             break;
 
@@ -744,6 +787,16 @@ static void ui_display_tx_desc_2(void) {
         UX_DISPLAY(bagl_ui_tx_desc_blue, NULL);
     } else {
         UX_DISPLAY(bagl_ui_tx_desc_nanos_2, NULL);
+    }
+}
+
+/** show the transaction description screen. */
+static void ui_display_tx_desc_3(void) {
+    uiState = UI_TX_DESC_3;
+    if (os_seph_features() & SEPROXYHAL_TAG_SESSION_START_EVENT_FEATURE_SCREEN_BIG) {
+        UX_DISPLAY(bagl_ui_tx_desc_blue, NULL);
+    } else {
+        UX_DISPLAY(bagl_ui_tx_desc_nanos_3, NULL);
     }
 }
 
