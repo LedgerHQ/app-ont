@@ -138,6 +138,8 @@ static void ont_main(void) {
                 rx = io_exchange(CHANNEL_APDU | flags, rx);
                 flags = 0;
 
+                PRINTF("APDU received:\n%.*H\n",100, G_io_apdu_buffer);
+
                 // no apdu received, well, reset the session, and reset the
                 // bootloader configuration
                 if (rx == 0) {
@@ -195,9 +197,9 @@ static void ont_main(void) {
 
                             // parse the transaction into human readable text.
                             display_tx_desc();
+
                             // display the UI, starting at the top screen which is "Sign Tx Now".
                             ui_top_sign();
-                            //ui_display_tx_desc_1();
                         }
 
                         flags |= IO_ASYNCH_REPLY;
@@ -228,8 +230,7 @@ static void ont_main(void) {
                         unsigned int bip44_path[BIP44_PATH_LEN];
                         uint32_t i;
                         for (i = 0; i < BIP44_PATH_LEN; i++) {
-                            bip44_path[i] =
-                                    (bip44_in[0] << 24) | (bip44_in[1] << 16) | (bip44_in[2] << 8) | (bip44_in[3]);
+								bip44_path[i] = (bip44_in[0] << 24) | (bip44_in[1] << 16) | (bip44_in[2] << 8) | (bip44_in[3]);
                             bip44_in += 4;
                         }
                         unsigned char privateKeyData[32];
@@ -270,9 +271,8 @@ static void ont_main(void) {
                         unsigned int bip44_path[BIP44_PATH_LEN];
                         uint32_t i;
                         for (i = 0; i < BIP44_PATH_LEN; i++) {
-                            bip44_path[i] =
-                                    (bip44_in[0] << 24) | (bip44_in[1] << 16) | (bip44_in[2] << 8) | (bip44_in[3]);
-                            bip44_in += 4;
+				bip44_path[i] = (bip44_in[0] << 24) | (bip44_in[1] << 16) | (bip44_in[2] << 8) | (bip44_in[3]);
+                        	bip44_in += 4;
                         }
                         unsigned char privateKeyData[32];
                         os_perso_derive_node_bip32(CX_CURVE_256R1, bip44_path, BIP44_PATH_LEN, privateKeyData, NULL);
@@ -298,8 +298,7 @@ static void ont_main(void) {
                         cx_sha256_init(&pubKeyHash);
 
                         cx_hash(&pubKeyHash.header, CX_LAST, publicKey.W, 65, result);
-                        tx += cx_ecdsa_sign((void *) &privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256, result,
-                                            sizeof(result), G_io_apdu_buffer + tx, NULL);
+			tx += cx_ecdsa_sign((void*) &privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256, result, sizeof(result), G_io_apdu_buffer + tx, NULL);
 
                         // return 0x9000 OK.
                         THROW(0x9000);
@@ -340,8 +339,7 @@ static void ont_main(void) {
         END_TRY;
     }
 
-    return_to_dashboard:
-    return;
+	return_to_dashboard: return;
 }
 
 /** display function */
@@ -349,7 +347,6 @@ void io_seproxyhal_display(const bagl_element_t *element) {
     io_seproxyhal_display_default((bagl_element_t *) element);
 }
 
-/* io event loop */
 unsigned char io_event(unsigned char channel) {
     // nothing done with the event, throw an error on the transport layer if
     // needed
@@ -376,6 +373,16 @@ unsigned char io_event(unsigned char channel) {
             break;
 
         case SEPROXYHAL_TAG_TICKER_EVENT:
+#if defined(TARGET_NANOX)
+	UX_TICKER_EVENT(G_io_seproxyhal_spi_buffer, {
+            // don't redisplay if UX not allowed (pin locked in the common bolos
+            // ux ?)
+            if (UX_ALLOWED) {
+                // redisplay screen
+                UX_REDISPLAY();
+            }
+        });
+#else
 //		UX_REDISPLAY();
             Timer_Tick();
             if (publicKeyNeedsRefresh == 1) {
@@ -388,6 +395,7 @@ unsigned char io_event(unsigned char channel) {
                     Timer_UpdateDisplay();
                 }
             }
+#endif
             break;
 
             // unknown events are acknowledged
@@ -440,7 +448,10 @@ __attribute__((section(".boot"))) int main(void) {
             USB_power(1);
 
             // init the public key display to "no public key".
-            //display_no_public_key();
+            display_no_public_key();
+
+            // set menu bar colour for blue
+            ui_set_menu_bar_colour();
 
             // show idle screen.
             ui_idle();
