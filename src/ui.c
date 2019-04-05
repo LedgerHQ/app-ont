@@ -109,7 +109,7 @@ static const bagl_element_t *bagl_ui_LEFT_blue_button(const bagl_element_t *e);
 ////////////////////////////////////  NANO X //////////////////////////////////////////////////
 #ifdef TARGET_NANOX
 
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_confirm_single_flow_1_step, 
     pnn, 
     {
@@ -117,21 +117,21 @@ UX_FLOW_DEF_NOCB(
       "Review",
       "Transaction"
     });
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_confirm_single_flow_2_step, 
     bn, 
     {
       "Type",
       curr_tx_desc[0]
     });
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_confirm_single_flow_3_step, 
     bn, 
     {
       "Amount",
       curr_tx_desc[1],
     });
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_confirm_single_flow_4_step, 
     bnnn, 
     {
@@ -140,7 +140,7 @@ UX_FLOW_DEF_NOCB(
       curr_tx_desc[3],
       curr_tx_desc[4]
     });
-UX_FLOW_DEF_VALID(
+UX_STEP_VALID(
     ux_confirm_single_flow_5_step, 
     pb,
     io_seproxyhal_touch_approve(NULL), 
@@ -148,7 +148,7 @@ UX_FLOW_DEF_VALID(
       &C_icon_validate_14,
       "Accept",
     });
-UX_FLOW_DEF_VALID(
+UX_STEP_VALID(
     ux_confirm_single_flow_6_step, 
     pb, 
     io_seproxyhal_touch_deny(NULL),
@@ -156,7 +156,7 @@ UX_FLOW_DEF_VALID(
       &C_icon_crossmark,
       "Reject",
     });
-UX_DEF(ux_confirm_single_flow,
+UX_FLOW(ux_confirm_single_flow,
   &ux_confirm_single_flow_1_step,
   &ux_confirm_single_flow_2_step,
   &ux_confirm_single_flow_3_step,
@@ -167,7 +167,7 @@ UX_DEF(ux_confirm_single_flow,
 
 
 
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_display_public_flow_step, 
     bnnn, 
     {
@@ -176,7 +176,7 @@ UX_FLOW_DEF_NOCB(
       current_public_key[1],
       current_public_key[2]
     });
-UX_FLOW_DEF_VALID(
+UX_STEP_VALID(
     ux_display_public_go_back_step, 
     pb, 
     ui_idle(),
@@ -185,7 +185,7 @@ UX_FLOW_DEF_VALID(
       "Back",
     });
 
-UX_DEF(ux_display_public_flow,
+UX_FLOW(ux_display_public_flow,
   &ux_display_public_flow_step,
   &ux_display_public_go_back_step
 );
@@ -197,14 +197,14 @@ void display_account_address(){
 	ux_flow_init(0, ux_display_public_flow, NULL);
 }
 
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_idle_flow_1_step, 
     nn, 
     {
       "Application",
       "is ready",
     });
-UX_FLOW_DEF_VALID(
+UX_STEP_VALID(
     ux_idle_flow_2_step,
     pbb,
     display_account_address(),
@@ -213,14 +213,14 @@ UX_FLOW_DEF_VALID(
       "Display",
 	  "Account"
     });
-UX_FLOW_DEF_NOCB(
+UX_STEP_NOCB(
     ux_idle_flow_3_step, 
     bn, 
     {
       "Version",
       APPVERSION,
     });
-UX_FLOW_DEF_VALID(
+UX_STEP_VALID(
     ux_idle_flow_4_step,
     pb,
     os_sched_exit(-1),
@@ -229,7 +229,7 @@ UX_FLOW_DEF_VALID(
       "Quit",
     });
 
-UX_DEF(ux_idle_flow,
+UX_FLOW(ux_idle_flow,
   &ux_idle_flow_1_step,
   &ux_idle_flow_2_step,
   &ux_idle_flow_3_step,

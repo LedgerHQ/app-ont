@@ -28,12 +28,12 @@ APP_LOAD_PARAMS = --path "44'/1024'" --path "44'/888'" --appFlags 0x240 --apdu $
 APP_DELETE_PARAMS =  --apdu $(COMMON_DELETE_PARAMS)
 
 ifeq ($(TARGET_NAME),TARGET_BLUE)
-ICONNAME=blue_app_ont.gif
+	ICONNAME=blue_app_ont.gif
 else
 	ifeq ($(TARGET_NAME),TARGET_NANOX)
-ICONNAME=nanox_app_ont.gif
+		ICONNAME=nanox_app_ont.gif
 	else
-ICONNAME=nanos_app_ont.gif
+		ICONNAME=nanos_app_ont.gif
 	endif
 endif
 
@@ -41,12 +41,8 @@ endif
 # Build configuration
 
 DEFINES += APPVERSION=\"$(APPVERSION)\"
-
-DEFINES += OS_IO_SEPROXYHAL IO_SEPROXYHAL_BUFFER_SIZE_B=128
+DEFINES += OS_IO_SEPROXYHAL
 DEFINES += HAVE_BAGL HAVE_SPRINTF
-#DEFINES   += HAVE_PRINTF PRINTF=screen_printf
-DEFINES += PRINTF\(...\)=
-#DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
 
 DEFINES += CX_COMPLIANCE_141
 
@@ -60,19 +56,36 @@ WEBUSB_URL     = www.ledgerwallet.com
 DEFINES       += HAVE_WEBUSB WEBUSB_URL_SIZE_B=$(shell echo -n $(WEBUSB_URL) | wc -c) WEBUSB_URL=$(shell echo -n $(WEBUSB_URL) | sed -e "s/./\\\'\0\\\',/g")
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
-DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
-DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
+	DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=300
+	DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
+	DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
 
-DEFINES       += HAVE_GLO096 HAVE_UX_LEGACY
-DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
-DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
-DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
-DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
-DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
+	DEFINES       += HAVE_GLO096
+	DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
+	DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
+	DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
+	DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
+	DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
+	DEFINES       += HAVE_UX_FLOW
+else
+	DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=128
 endif
 
-# Compiler, assembler, and linker
+# Enabling debug PRINTF
+DEBUG = 0
+ifdef DEBUG
+	ifeq ($(TARGET_NAME),TARGET_NANOX)
+		DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
+	else
+		DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+	endif
+else
+	DEFINES   += PRINTF\(...\)=
+endif
 
+##############
+#  Compiler  #
+##############
 ifneq ($(BOLOS_ENV),)
 $(info BOLOS_ENV=$(BOLOS_ENV))
 CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
@@ -103,8 +116,8 @@ APP_SOURCE_PATH += src
 SDK_SOURCE_PATH += lib_stusb lib_stusb_impl lib_u2f
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
-SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
-SDK_SOURCE_PATH  += lib_ux
+	SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
+	SDK_SOURCE_PATH  += lib_ux
 endif
 
 # Main rules
