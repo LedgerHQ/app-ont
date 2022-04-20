@@ -1,9 +1,11 @@
-# error codes
+# ledger-app-ont
+
+## Error codes
 
 any response that doesn not end with `0x9000` is an error.
 Some errors are standard errors from the APDU (Application Protocol Data Unit)
 
-http://techmeonline.com/apdu-status-error-codes/
+<http://techmeonline.com/apdu-status-error-codes/>
 
 All errors on ONT 1.0 start with 0x6D (because I read the spec wrong).
 
@@ -22,7 +24,7 @@ All errors on ONT 1.0 start with 0x6D (because I read the spec wrong).
 - `0x6D12` base_x encoded string is too long for available decoding memory.
 - `0x6D14` base_x encoding error.
 
-# ledger-app-ont
+## Install
 
 Run `make load` to build and load the application onto the device.
 
@@ -32,6 +34,4 @@ Each transaction should display correctly in the UI.
 Use the buttons individually to scroll up and down to view the transaction details.
 Either Sign or Deny the transaction by clicking both top buttons on the 'Sign Tx Now', and 'Deny Tx' screens.
 
-See [Ledger's documentation](http://ledger.readthedocs.io) to get started.
-
-
+See [Ledger's documentation](https://developers.ledger.com/docs/nano-app/start-here/) to get started.
