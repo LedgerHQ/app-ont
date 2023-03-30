@@ -139,4 +139,4 @@ include $(BOLOS_SDK)/Makefile.rules
 
 
 listvariants:
-	@echo VARIANTS ontology
+	@echo VARIANTS COIN ontology
