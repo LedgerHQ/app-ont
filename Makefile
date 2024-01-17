@@ -72,8 +72,8 @@ else
 endif
 
 # Enabling debug PRINTF
-DEBUG = 0
-ifdef DEBUG
+DEBUG ?= 0
+ifneq ($(DEBUG), 0)
 	ifeq ($(TARGET_NAME),TARGET_NANOS)
 		DEFINES   += HAVE_PRINTF PRINTF=screen_printf
 	else
