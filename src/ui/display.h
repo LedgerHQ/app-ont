@@ -13,6 +13,9 @@
 #elif defined(TARGET_FLEX)
 #define ICON_APP_ONTOLOGY    C_app_ont40px
 #define ICON_APP_WARNING     C_Warning_64px
+#elif defined(TARGET_APEX_P)
+#define ICON_APP_ONTOLOGY    C_app_ont_32px
+#define ICON_APP_WARNING     C_Warning_48px
 #endif
 
 #define NUM_PAIRS          (PARAMETERS_MAX_NUM + 2)  // gas fee and signer

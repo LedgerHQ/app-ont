@@ -2,7 +2,7 @@
 
 # Ledger Ontology Application
 
-This is the Ledger Onotlogy Application for the Ledger Stax, Flex, Nano S Plus, and Nano X. It is based on [the Ledger Boilerplate Application](https://github.com/LedgerHQ/app-boilerplate).
+This is the Ledger Onotlogy Application for the Ledger devices. It is based on [the Ledger Boilerplate Application](https://github.com/LedgerHQ/app-boilerplate).
 
 The application for Ledger Nano S can be found [here](https://github.com/LedgerHQ/app-ont/commit/babe2c673fac8f6429881773442bdcedf5aec666).
 
@@ -92,6 +92,7 @@ You can choose which device to compile and load for by setting the `BOLOS_SDK` e
 - `BOLOS_SDK=$NANOSP_SDK`
 - `BOLOS_SDK=$STAX_SDK`
 - `BOLOS_SDK=$FLEX_SDK`
+- `BOLOS_SDK=$APEX_SDK`
 
 By default this variable is set to build/load for Nano S+.
 

@@ -50,6 +50,7 @@ include_directories($ENV{BOLOS_SDK}/target/flex/include)
 include_directories($ENV{BOLOS_SDK}/target/stax/include)
 include_directories($ENV{BOLOS_SDK}/target/nanox/include)
 include_directories($ENV{BOLOS_SDK}/target/nanos2/include)
+include_directories($ENV{BOLOS_SDK}/target/apex/include)
 include_directories($ENV{BOLOS_SDK}/lib_cxng/include)
 
 add_executable(test_tx_parser test_tx_parser.c)

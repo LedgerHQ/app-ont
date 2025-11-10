@@ -45,6 +45,7 @@ ICON_NANOSP = icons/app_ont14px.gif
 ICON_NANOX = icons/app_ont14px.gif
 ICON_STAX = icons/app_ont32px.gif
 ICON_FLEX = icons/app_ont40px.gif
+ICON_APEX_P = icons/app_ont_32px.png
 
 # Application allowed derivation curves.
 # Possibles curves are: secp256k1, secp256r1, ed25519 and bls12381g1
