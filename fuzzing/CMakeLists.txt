@@ -28,6 +28,7 @@ include_directories(
     "${BOLOS_SDK}/target/nanox/include"
     "${BOLOS_SDK}/target/nanos2/include"
     "${BOLOS_SDK}/target/nanos/include"
+    "${BOLOS_SDK}/target/apex/include"
     "${BOLOS_SDK}/lib_cxng/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/../src"
     "${CMAKE_CURRENT_SOURCE_DIR}/../src/transaction"
