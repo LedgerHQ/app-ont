@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(OntFuzzer VERSION 2.0.0 LANGUAGES C)
+project(OntFuzzer VERSION 2.0.1 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_COMPILER clang) # Ensure Clang is used

@@ -11,7 +11,7 @@
 #endif
 
 enum {
-    GAS_PRICE_MIN = 2500,
+    GAS_PRICE_MIN = 500,
     GAS_LIMIT_MIN = 20000,
 };
 
