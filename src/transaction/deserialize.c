@@ -36,7 +36,7 @@ The valid `tx-type` of the transaction include two values:
 The `nonce` is a 4-byte unsigned integer.
 
 4. gasPrice:
-The `gasPrice` is a 8-byte unsigned integer, which has a minimum value of 2500.
+The `gasPrice` is a 8-byte unsigned integer, which has a minimum value of 500.
 
 5. gasLimit:
 The `gasLimit` is a 8-byte unsigned integer, which has a minimum value of 20000.
